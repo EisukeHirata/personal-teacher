@@ -1,14 +1,26 @@
-import { Box, Button, HStack, Select, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  Image,
+  Input,
+  Select,
+  Spinner,
+  VStack,
+} from "@chakra-ui/react";
 import React from "react";
 import { useConversation, AudioDeviceConfig, ConversationConfig } from "vocode";
 import MicrophoneIcon from "./MicrophoneIcon";
 import AudioVisualization from "./AudioVisualization";
 import { isMobile } from "react-device-detect";
+import { ChatGPTAgentConfig } from "vocode";
 
 const Conversation = ({
   config,
+  setPromptPreamble,
 }: {
   config: Omit<ConversationConfig, "audioDeviceConfig">;
+  setPromptPreamble: (value: string) => void;
 }) => {
   const [audioDeviceConfig, setAudioDeviceConfig] =
     React.useState<AudioDeviceConfig>({});
@@ -19,10 +31,6 @@ const Conversation = ({
   const { status, start, stop, analyserNode } = useConversation(
     Object.assign(config, { audioDeviceConfig })
   );
-  // const { status, start, stop, analyserNode } = useConversation({
-  //   backendUrl: "wss://56686e955e8c.ngrok.app/conversation",
-  //   audioDeviceConfig,
-  // });
 
   React.useEffect(() => {
     navigator.mediaDevices
@@ -44,10 +52,33 @@ const Conversation = ({
       });
   });
 
+  const handlePromptPreambleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPromptPreamble(e.target.value);
+  };
+
+  const startConversation = () => {
+    if (status === "connected") {
+      stop();
+    } else {
+      start();
+    }
+  };
+
   return (
-    <>
-      {analyserNode && <AudioVisualization analyser={analyserNode} />}
-      <Button
+    <VStack>
+      <Image src="person.png" width="300px" height="auto" />
+      <Input
+        placeholder="Enter Agent's prompt Preamble"
+        value={(config.agentConfig as ChatGPTAgentConfig).promptPreamble}
+        onChange={handlePromptPreambleChange}
+      />
+      <Button onClick={startConversation}>
+        {status === "connected" ? "End" : "Start Conversation"}
+      </Button>
+      {/*analyserNode && <AudioVisualization analyser={analyserNode} />*/}
+      {/*<Button
         variant="link"
         disabled={["connecting", "error"].includes(status)}
         onClick={status === "connected" ? stop : start}
@@ -60,7 +91,7 @@ const Conversation = ({
           <MicrophoneIcon color={"#ddfafa"} muted={status !== "connected"} />
         </Box>
       </Button>
-      <Box boxSize={50} />
+      <Box boxSize={50} />*/}
       {status === "connecting" && (
         <Box
           position={"absolute"}
@@ -72,74 +103,7 @@ const Conversation = ({
           <Spinner color="#FFFFFF" />
         </Box>
       )}
-      {!isMobile && (
-        <HStack width="96%" position="absolute" top={"10%"} left="2%">
-          {inputDevices.length > 0 && (
-            <Select
-              color={"#FFFFFF"}
-              disabled={["connecting", "connected"].includes(status)}
-              onChange={(event) =>
-                setAudioDeviceConfig({
-                  ...audioDeviceConfig,
-                  inputDeviceId: event.target.value,
-                })
-              }
-              value={audioDeviceConfig.inputDeviceId}
-            >
-              {inputDevices.map((device, i) => {
-                return (
-                  <option key={i} value={device.deviceId}>
-                    {device.label}
-                  </option>
-                );
-              })}
-            </Select>
-          )}
-          {outputDevices.length > 0 && (
-            <Select
-              color={"#FFFFFF"}
-              disabled
-              onChange={(event) =>
-                setAudioDeviceConfig({
-                  ...audioDeviceConfig,
-                  outputDeviceId: event.target.value,
-                })
-              }
-              value={audioDeviceConfig.outputDeviceId}
-            >
-              {outputDevices.map((device, i) => {
-                return (
-                  <option key={i} value={device.deviceId}>
-                    {device.label}
-                  </option>
-                );
-              })}
-            </Select>
-          )}
-          <Select
-            color={"#FFFFFF"}
-            disabled={["connecting", "connected"].includes(status)}
-            onChange={(event) =>
-              event.target.value &&
-              setAudioDeviceConfig({
-                ...audioDeviceConfig,
-                outputSamplingRate: parseInt(event.target.value),
-              })
-            }
-            placeholder="Set output sampling rate"
-            value={audioDeviceConfig.outputSamplingRate}
-          >
-            {["8000", "16000", "24000", "44100", "48000"].map((rate, i) => {
-              return (
-                <option key={i} value={rate}>
-                  {rate} Hz
-                </option>
-              );
-            })}
-          </Select>
-        </HStack>
-      )}
-    </>
+    </VStack>
   );
 };
 

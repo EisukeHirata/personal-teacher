@@ -1,5 +1,6 @@
 import "@fontsource/inter";
 import "./App.css";
+import React from "react";
 
 import {
   Box,
@@ -35,15 +36,7 @@ const App = () => {
       type: "endpointing_punctuation_based",
     },
   };
-  const agentConfig: ChatGPTAgentConfig = {
-    type: "agent_chat_gpt",
-    initialMessage: { type: "message_base", text: "Hello!" },
-    promptPreamble:
-      "Vocode is an SDK that allows developers to create voice bots like this one in less than 10 lines of code. The AI is explaining to the human what Vocode is.",
-    endConversationOnGoodbye: true,
-    generateResponses: true,
-    cutOffResponse: {},
-  };
+
   const synthesizerConfig: Omit<
     AzureSynthesizerConfig,
     "samplingRate" | "audioEncoding"
@@ -54,6 +47,19 @@ const App = () => {
   };
   const vocodeConfig: VocodeConfig = {
     apiKey: process.env.REACT_APP_VOCODE_API_KEY || "",
+  };
+
+  const [promptPreamble, setPromptPreamble] = React.useState(
+    "you are an English Teacher. Teach English to me"
+  );
+
+  const agentConfig: ChatGPTAgentConfig = {
+    type: "agent_chat_gpt",
+    initialMessage: { type: "message_base", text: "Hello!" },
+    promptPreamble,
+    endConversationOnGoodbye: true,
+    generateResponses: true,
+    cutOffResponse: {},
   };
 
   return (
@@ -74,6 +80,7 @@ const App = () => {
             synthesizerConfig,
             vocodeConfig,
           }}
+          setPromptPreamble={setPromptPreamble}
         />
       )}
     </ChakraProvider>
