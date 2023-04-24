@@ -50,7 +50,7 @@ const App = () => {
   };
 
   const [promptPreamble, setPromptPreamble] = React.useState(
-    "you are an English Teacher. Let's have a conversation. Your answer should be limited to three sentences and end with a question sentence if at all possible."
+    "you are an English Teacher. Let's have a general conversation. Your answer should be limited to three sentences and end with a question sentence if at all possible."
   );
 
   const agentConfig: ChatGPTAgentConfig = {
