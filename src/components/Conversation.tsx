@@ -72,7 +72,7 @@ const Conversation = ({
       <Heading>AI Teacher</Heading>
 
       <Image
-        src="https://i.imgur.com/UqxmjPh.png"
+        src="https://i.imgur.com/UNYegqr.png"
         alt="Example Image"
         width="300px"
         height="auto"
