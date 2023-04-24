@@ -1,4 +1,5 @@
 import {
+  Heading,
   Box,
   Button,
   HStack,
@@ -68,7 +69,15 @@ const Conversation = ({
 
   return (
     <VStack>
-      <Image src="person.png" width="300px" height="auto" />
+      <Heading>AI Teacher</Heading>
+
+      <Image
+        src="https://i.imgur.com/UqxmjPh.png"
+        alt="Example Image"
+        width="300px"
+        height="auto"
+        onError={() => console.log("Failed to load image")}
+      />
       <Input
         placeholder="Enter Agent's prompt Preamble"
         value={(config.agentConfig as ChatGPTAgentConfig).promptPreamble}
