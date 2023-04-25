@@ -24,6 +24,9 @@ import {
   RESTfulUserImplementedAgentConfig,
   WebSocketUserImplementedAgentConfig,
 } from "vocode";
+import { inject } from "@vercel/analytics";
+
+inject();
 
 const App = () => {
   const transcriberConfig: Omit<
