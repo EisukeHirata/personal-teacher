@@ -84,6 +84,7 @@ const Conversation = ({
         value={(config.agentConfig as ChatGPTAgentConfig).promptPreamble}
         onChange={handlePromptPreambleChange}
         w="75%"
+        resize="vertical"
       />
       <Button onClick={startConversation}>
         {status === "connected" ? "End" : "Start Conversation"}
