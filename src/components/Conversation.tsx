@@ -8,6 +8,7 @@ import {
   Select,
   Spinner,
   VStack,
+  Textarea,
 } from "@chakra-ui/react";
 import React from "react";
 import { useConversation, AudioDeviceConfig, ConversationConfig } from "vocode";
@@ -54,7 +55,7 @@ const Conversation = ({
   });
 
   const handlePromptPreambleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setPromptPreamble(e.target.value);
   };
@@ -78,10 +79,11 @@ const Conversation = ({
         height="auto"
         onError={() => console.log("Failed to load image")}
       />
-      <Input
+      <Textarea
         placeholder="Enter Agent's prompt Preamble"
         value={(config.agentConfig as ChatGPTAgentConfig).promptPreamble}
         onChange={handlePromptPreambleChange}
+        w="75%"
       />
       <Button onClick={startConversation}>
         {status === "connected" ? "End" : "Start Conversation"}
