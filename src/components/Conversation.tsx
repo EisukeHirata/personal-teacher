@@ -69,7 +69,7 @@ const Conversation = ({
 
   return (
     <VStack>
-      <Heading>AI Teacher</Heading>
+      <Heading>GPT Sensei</Heading>
 
       <Image
         src="https://i.imgur.com/UNYegqr.png"
