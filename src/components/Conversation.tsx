@@ -70,7 +70,7 @@ const Conversation = ({
 
   return (
     <VStack>
-      <Heading>GPT Sensei</Heading>
+      <Heading>Sensei AI</Heading>
 
       <Image
         src="https://i.imgur.com/UNYegqr.png"
@@ -90,7 +90,7 @@ const Conversation = ({
         {status === "connected" ? "End" : "Start Conversation"}
       </Button>
       {/*analyserNode && <AudioVisualization analyser={analyserNode} />*/}
-      {/*<Button
+      {/*<Buttong
         variant="link"
         disabled={["connecting", "error"].includes(status)}
         onClick={status === "connected" ? stop : start}
