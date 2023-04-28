@@ -70,7 +70,7 @@ const Conversation = ({
 
   return (
     <VStack>
-      <Heading>Sensei AI</Heading>
+      <Heading m={2}>Sensei AI</Heading>
 
       <Image
         src="https://i.imgur.com/UNYegqr.png"
@@ -78,6 +78,7 @@ const Conversation = ({
         width="300px"
         height="auto"
         onError={() => console.log("Failed to load image")}
+        m={2}
       />
       <Textarea
         placeholder="Enter Agent's prompt Preamble"
@@ -85,8 +86,9 @@ const Conversation = ({
         onChange={handlePromptPreambleChange}
         w="75%"
         resize="vertical"
+        m={2}
       />
-      <Button onClick={startConversation}>
+      <Button onClick={startConversation} m={2}>
         {status === "connected" ? "End" : "Start Conversation"}
       </Button>
       {/*analyserNode && <AudioVisualization analyser={analyserNode} />*/}

@@ -37,7 +37,8 @@ const App = () => {
     chunkSize: 2048,
     endpointingConfig: {
       type: "endpointing_punctuation_based",
-    },
+      time_cutoff_seconds: 1.0, // 1.0seconds
+    } as PunctuationEndpointingConfig, // Use the new type here
   };
 
   const synthesizerConfig: Omit<
@@ -53,7 +54,7 @@ const App = () => {
   };
 
   const [promptPreamble, setPromptPreamble] = React.useState(
-    "you are an English Teacher. Start a general conversation. Start practicing role-playing English conversation.This time it is a scene of self-introduction with someone you have just met for the first time. Please introduce yourself and engage in daily conversation as if you and I were meeting for the first time.- Your name is GPT Sensei - I am a beginner in English. I want to practice my English so you don't talk too much. One question per reply.End with a question sentence if at all possible."
+    "you are an English Teacher. Start a general conversation. Start practicing role-playing English conversation.This time it is a scene of self-introduction with someone you have just met for the first time. Please introduce yourself and engage in daily conversation as if you and I were meeting for the first time.- Your name is Sensei - I am a beginner in English. I want to practice my English so you don't talk too much. One question per reply.End with a question sentence if at all possible."
   );
 
   const agentConfig: ChatGPTAgentConfig = {
@@ -63,6 +64,11 @@ const App = () => {
     endConversationOnGoodbye: true,
     generateResponses: true,
     cutOffResponse: {},
+  };
+  // add this to the agentConfig object
+  type PunctuationEndpointingConfig = {
+    type: "endpointing_punctuation_based";
+    time_cutoff_seconds: number;
   };
 
   return (
